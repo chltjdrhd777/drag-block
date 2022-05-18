@@ -1,43 +1,28 @@
-# TypeScript Next.js example
+# Canvas를 이용한 이미지 트래킹 구현 내용입니다.
 
-This is a really simple project that shows the usage of Next.js with TypeScript.
+[임시 배포링크](https://dragmark.netlify.app/)
 
-## Deploy your own
+## 0. intro
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) or preview live with [StackBlitz](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-typescript)
+### 조금이라도 더 정교한 구조를 만들어보고자
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-typescript&project-name=with-typescript&repository-name=with-typescript)
+깃 커밋기록을 보면, 시작시점이 어제인 것을 보실 수 있으실 겁니다.
+"음? 분명히 기존에 했던거가 있다고 하지 않았던가 아닌가보네" 하는 합리적인 의심이 드실 수 있다고 생각합니다. 한달 전 오드컨셉에 지원을 완료한 후 2번째 과제를 하지 못했던 것에 대해서 몹시 분했던 저는, 바로 당일날 캔버스와 관련된 공부를 했었고 기능들을 실험해보면서 어렴풋한 기능을 만들긴 했지만, 후에 어차피 제출하지 못한다는 생각에 소기에 목적을 달성한 후 삭제했었습니다.
 
-## How to use it?
+그러므로 했던 적이 있지만, 결과가 남아있지 않으므로 결국 어제의 기록이 이 개발의 시작점이라 할 수 있습니다.
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
+하지만 처음부터 다시 시작한 덕택에 오히려 기존에 사용해보고 싶었던 여러가지 기법들 (portal이나 훅을 이용한 재사용성) 등을 실험해볼 수 있는 계기가 되었다고 생각합니다.
 
-```bash
-npx create-next-app --example with-typescript with-typescript-app
-# or
-yarn create next-app --example with-typescript with-typescript-app
-# or
-pnpm create next-app -- --example with-typescript with-typescript-app
-```
+## 1. fix
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+- 원래는 샘플 이미지를 통해서 진행하도록 되어있던걸로 기억하고 있습니다. 하지만 그 당시 코드스테이츠 플랫폼에서 제공했던 기업과제 링크에 더이상 접근을 할 수가 없으므로, 오히려 자유롭게 이미지를 업로드해서 해당 이미지로 영역지정이 가능할 수 있도록 하였습니다.
 
-## Notes
+- 컴포넌트 폴더 내에 ImgService 파일에 이미지를 업로드한 후 새로고침해도 유지할 수 있도록 하게 만들기 위해 여러가지 방법을 수도없이 시도한 결과, 최후에 localstorage에 base64로 전환한 스트링 값을 저장해서 새로고침때마다 불러오도록 하는 방식으로 결론지었습니다.
 
-This example shows how to integrate the TypeScript type system into Next.js. Since TypeScript is supported out of the box with Next.js, all we have to do is to install TypeScript.
+- 또한 파일 업로드 시에 input의 FileList에는 여전히 값이 남아있어 onChange가 제대로 detect되지 않는 문제(동일한 파일 업로드 시) 를 구글링하여 "DataTransfer"을 이용해 전달하는 방식으로 해결하였습니다. 해당 API는 조만간 자세히 조사하여 블로깅을 할 예정입니다.
 
-```
-npm install --save-dev typescript
-```
+- 이미지가 아닌 파일이 들어왔을 경우, 업로드를 하지 않도록 수정하였습니다.
 
-To enable TypeScript's features, we install the type declarations for React and Node.
+- 캔버스 바깥에서 mouseup이 되었을 시, 캔버스 내에 마우스 이벤트가 그대로 남아있던 버그에 대해서 드래그한 영역을 초기화하는 방향과, 경계 한계까지 만들어지게 하는 것의 선택지에서 전자를 선택하였습니다. (현재 알 수 없는 이유로 작동을 제대로 하지 않아서 버그를 수정중입니다)
 
-```
-npm install --save-dev @types/react @types/react-dom @types/node
-```
-
-When we run `next dev` the next time, Next.js will start looking for any `.ts` or `.tsx` files in our project and builds it. It even automatically creates a `tsconfig.json` file for our project with the recommended settings.
-
-Next.js has built-in TypeScript declarations, so we'll get autocompletion for Next.js' modules straight away.
-
-A `type-check` script is also added to `package.json`, which runs TypeScript's `tsc` CLI in `noEmit` mode to run type-checking separately. You can then include this, for example, in your `test` scripts.
+- 드래그가 아닌 클릭을 했을 경우는 다른 반응을 하지 않도록 수정하였습니다.

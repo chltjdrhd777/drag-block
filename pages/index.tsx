@@ -1,15 +1,17 @@
-import Link from 'next/link'
-import Layout from '../components/Layout'
+import Link from 'next/link';
+import styled from '@emotion/styled';
+import { colors } from 'styles/theme';
+import ImgService from 'components/ImgService';
 
 const IndexPage = () => (
-  <Layout title="Home | Next.js + TypeScript Example">
-    <h1>Hello Next.js 👋</h1>
-    <p>
-      <Link href="/about">
-        <a>About</a>
-      </Link>
-    </p>
-  </Layout>
-)
+  <Main>
+    <ImgService />
+  </Main>
+);
 
-export default IndexPage
+const Main = styled.main`
+  width: 100vw;
+  height: 100vh;
+  background-color: ${colors.pointColorBlue};
+`;
+export default IndexPage;
