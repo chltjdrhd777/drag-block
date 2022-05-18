@@ -10,9 +10,12 @@ interface Coords {
   isDrag: boolean;
 }
 
+type FillType = keyof typeof rectFillColors;
+type LineType = keyof typeof rectLineColors;
+
 export interface RectStyle {
-  fill: 'red';
-  line: 'purple';
+  fill: FillType;
+  line: LineType;
   fillOpacity: string;
   lineOpacity: string;
   lineWidth: number;
@@ -172,6 +175,7 @@ export function useCanvas(canvas: HTMLCanvasElement | null) {
     saveRect,
     editRect,
     removeRect,
+    rectDesign,
     setRectDesign,
   };
 }

@@ -13,6 +13,7 @@ import ModalForm from 'components/Form';
 import { css } from '@emotion/react';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import { BiDownArrow, BiUpArrow } from 'react-icons/bi';
+import DesignOption from './DesignOption';
 
 function ImgCanvas() {
   //state
@@ -43,6 +44,7 @@ function ImgCanvas() {
     editRect,
     removeRect,
     clearAll,
+    rectDesign,
     setRectDesign,
   } = useCanvas(dragCanvasRef.current);
 
@@ -80,7 +82,11 @@ function ImgCanvas() {
 
       ctx.fillStyle = 'black';
       ctx.font = 'bold 1.3rem verdana, sans-serif ';
-      ctx.fillText(rect.title, rect.start?.x - 5, rect.start?.y - 10);
+
+      let textXCoord =
+        rect.start.x < rect.end.x ? rect.start.x - 5 : rect.end.x - 5;
+
+      ctx.fillText(rect.title, textXCoord, rect.start?.y - 10);
     }
   }, [savedRectList]);
 
@@ -110,6 +116,8 @@ function ImgCanvas() {
   //return
   return (
     <Container id="canvas-container">
+      <DesignOption rectDesign={rectDesign} setRectDesign={setRectDesign} />
+
       <OpenListButtn open={isEditorOpen} onClick={() => setIsEditorOpen(true)}>
         <BiDownArrow />
       </OpenListButtn>

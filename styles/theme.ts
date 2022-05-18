@@ -25,7 +25,6 @@ export const rectFillColors = {
   red: ['255', '051', '051'],
   green: ['128', '255', '51'],
   blue: ['51', '128', '255'],
-  lime: ['0', '255', '0'],
 } as const;
 export const rectLineColors = {
   purple: ['153', '051', '255'],
