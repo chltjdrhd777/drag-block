@@ -1,6 +1,7 @@
 # Canvas를 이용한 이미지 트래킹 구현 내용입니다.
+<img width="856" alt="스크린샷 2023-08-24 오후 3 53 36" src="https://github.com/chltjdrhd777/drag-block/assets/58500558/71ba3d42-a87e-48c3-a400-1ff0fd02997f">
 
-[임시 배포링크](https://dragmark.netlify.app/)
+[배포링크](https://dragmark.netlify.app/)
 
 ## 0. intro
 
